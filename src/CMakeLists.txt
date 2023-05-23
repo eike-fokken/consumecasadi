@@ -1,6 +1,5 @@
-include_directories(${CASADI_INCLUDE_DIR})
 add_executable(main main.cpp)
-target_link_libraries(main ${CASADI_LIBRARIES})
+target_link_libraries(main casadi)
 
 
 set(my_debug_options -O0 -Werror -Wconversion -pedantic-errors -pedantic -Wall -Wextra -Wcast-align -Wcast-qual -Wctor-dtor-privacy -Wundef
