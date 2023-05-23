@@ -1,7 +1,7 @@
 cmake_minimum_required (VERSION 3.9)
 # 3.9 is needed for CheckIPOSupported and for doxygen_add_docs.
 
-project(repacker LANGUAGES C CXX)
+project(consumecasadi LANGUAGES C CXX)
 
 include(CheckIPOSupported)
 
