@@ -1,6 +1,3 @@
-[submodule "googletest"]
-	path = googletest
-	url = https://github.com/google/googletest.git
 [submodule "casadi"]
 	path = casadi
 	url = https://github.com/casadi/casadi.git

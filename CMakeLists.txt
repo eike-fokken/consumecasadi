@@ -1,16 +1,7 @@
+# I don't really know what the minimal cmake version is.
 cmake_minimum_required (VERSION 3.9)
-# 3.9 is needed for CheckIPOSupported and for doxygen_add_docs.
 
-project(consumecasadi LANGUAGES C CXX)
-
-
-#for multiple compiler compatibility:
-set(CMAKE_CXX_STANDARD 20)
-set(CMAKE_CXX_STANDARD_REQUIRED ON)
-set(CMAKE_CXX_EXTENSIONS OFF)
-
-#for development:
-set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+project(consumecasadi)
 
 file(MAKE_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}/casadiLocation")
 set(CMAKE_INSTALL_PREFIX_BACKUP "${CMAKE_INSTALL_PREFIX}")
@@ -38,9 +29,3 @@ add_library(casadi INTERFACE)
 add_dependencies(casadi casadi_build_target ${casadi_library_file})
 target_link_libraries(casadi INTERFACE ${casadi_library_file})
 target_include_directories(casadi SYSTEM INTERFACE ${casadi_include_dir})
-
-add_subdirectory(src)
-
-add_subdirectory(docs)
-add_subdirectory(tests)
-
