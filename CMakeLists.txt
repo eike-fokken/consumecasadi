@@ -15,28 +15,15 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 file(MAKE_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}/casadiLocation")
 set(CMAKE_INSTALL_PREFIX_BACKUP "${CMAKE_INSTALL_PREFIX}")
 
-set(ENV{WITH_IPOPT} "ON")
-
-set(ENV{CMAKE_CXX_COMPILER_LAUNCHER} "${CMAKE_CXX_COMPILER_LAUNCHER}")
-set(ENV{WITH_HIGHS} "ON")
-set(ENV{WITH_IPOPT} "ON")
-set(ENV{WITH_BUILD_IPOPT} "ON")
-set(ENV{WITH_BUILD_HIGHS} "ON")
-set(ENV{CMAKE_INSTALL_PREFIX} "${CMAKE_CURRENT_BINARY_DIR}/casadiLocation")
-set(ENV{CMAKE_EXPORT_COMPILE_COMMANDS} "ON")
-set(ENV{WITH_BUILD_MUMPS} "ON")
-set(ENV{WITH_BUILD_METIS} "ON")
 
 set(casadi_library_name ${CMAKE_SHARED_LIBRARY_PREFIX}casadi${CMAKE_SHARED_LIBRARY_SUFFIX})
 set(casadi_library_file ${CMAKE_CURRENT_BINARY_DIR}/casadiLocation/lib/${casadi_library_name})
 
-
 include(ProcessorCount)
 ProcessorCount(NumberOfProcessors)
 
-
 add_custom_command(OUTPUT  ${casadi_library_file}
-  COMMAND ${CMAKE_COMMAND} -S . -B build -DCMAKE_INSTALL_PREFIX="${CMAKE_CURRENT_BINARY_DIR}/casadiLocation" && cmake --build build -j${NumberOfProcessors} --target install
+  COMMAND ${CMAKE_COMMAND} -S . -B build -DCMAKE_CXX_COMPILER_LAUNCHER=${CMAKE_CXX_COMPILER_LAUNCHER} -DWITH_HIGHS=ON -DWITH_IPOPT=ON -DWITH_BUILD_IPOPT=ON -DWITH_BUILD_HIGHS=ON -DWITH_BUILD_MUMPS=ON -DWITH_BUILD_METIS=ON -DCMAKE_INSTALL_PREFIX="${CMAKE_CURRENT_BINARY_DIR}/casadiLocation" && cmake --build build -j${NumberOfProcessors} --target install
     WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/casadi
     USES_TERMINAL)
   
@@ -45,22 +32,12 @@ add_custom_target(casadi_build_target ALL
   DEPENDS ${casadi_library_file}
 )
 
-
-
-
-set(CMAKE_INSTALL_PREFIX "${CMAKE_INSTALL_PREFIX_BACKUP}")
-
-
-set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_CURRENT_SOURCE_DIR}/casadi/cmake)
-set(ENV{CASADI_PREFIX} "${CMAKE_CURRENT_BINARY_DIR}/casadiLocation")
-
 set(casadi_include_dir "${CMAKE_CURRENT_BINARY_DIR}/casadiLocation/include")
 
 add_library(casadi INTERFACE)
 add_dependencies(casadi casadi_build_target ${casadi_library_file})
 target_link_libraries(casadi INTERFACE ${casadi_library_file})
 target_include_directories(casadi SYSTEM INTERFACE ${casadi_include_dir})
-
 
 add_subdirectory(src)
 
