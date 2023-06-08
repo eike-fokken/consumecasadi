@@ -33,3 +33,7 @@ a build directory within the casadi directory itself. The build step (`cmake
 --build <build_dir>`) both builds casadi and its dependencies and then installs
 them into the build directory of your project (`<build_dir>`). The installed
 libraries and headers are then used for the casadi library target.
+
+## Example
+To see an example, check out the corresponding repository:
+https://github.com/eike-fokken/test_consumecasadi.git
