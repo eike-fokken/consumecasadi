@@ -13,8 +13,14 @@ set(casadi_library_file ${CMAKE_CURRENT_BINARY_DIR}/casadiLocation/lib/${casadi_
 include(ProcessorCount)
 ProcessorCount(NumberOfProcessors)
 
+execute_process(
+  ${CMAKE_COMMAND} -S . -B build -DCMAKE_CXX_COMPILER_LAUNCHER=${CMAKE_CXX_COMPILER_LAUNCHER} -DWITH_HIGHS=ON -DWITH_IPOPT=ON -DWITH_BUILD_IPOPT=ON -DWITH_BUILD_HIGHS=ON -DWITH_BUILD_MUMPS=ON -DWITH_BUILD_METIS=ON -DCMAKE_INSTALL_PREFIX="${CMAKE_CURRENT_BINARY_DIR}/casadiLocation"
+  WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/casadi
+)
+
+
 add_custom_command(OUTPUT  ${casadi_library_file}
-  COMMAND ${CMAKE_COMMAND} -S . -B build -DCMAKE_CXX_COMPILER_LAUNCHER=${CMAKE_CXX_COMPILER_LAUNCHER} -DWITH_HIGHS=ON -DWITH_IPOPT=ON -DWITH_BUILD_IPOPT=ON -DWITH_BUILD_HIGHS=ON -DWITH_BUILD_MUMPS=ON -DWITH_BUILD_METIS=ON -DCMAKE_INSTALL_PREFIX="${CMAKE_CURRENT_BINARY_DIR}/casadiLocation" && cmake --build build -j${NumberOfProcessors} --target install
+  COMMAND cmake --build build -j${NumberOfProcessors} --target install
     WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/casadi
     USES_TERMINAL)
   
